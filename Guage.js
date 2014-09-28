@@ -39,7 +39,8 @@ var Guage = function(canvas, options) {
 		color: "lightblue",
 		bgColor: "#eee",
 		clockwise: false,
-		value: Math.PI*1.2,
+		startValue: 0,
+		value: 0.626,
 		rotation: 0,
 		radius: 50,
 		lineWidth: 20,
@@ -53,8 +54,8 @@ var Guage = function(canvas, options) {
 
 
 
-    this.radians = 0;
-    this.destinationRadians = options.value;
+    this.radians = (Math.PI*2)*this.startValue;
+    this.destinationRadians = (Math.PI*2)*this.value;
 
     this.ctx = canvas.getContext("2d");
     this.iterationCount = 0;
@@ -101,6 +102,14 @@ Guage.prototype.render = function() {
 	// Draw guage
     ctx.strokeStyle = this.color;
     this.drawArc(0, this.radians);
+
+    // Draw text
+    ctx.fillStyle = this.color;
+    ctx.font = "25px Arial";
+    text = Math.round( (this.radians/(Math.PI*2))*100 ) + "%";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, ctx.canvas.width/2, ctx.canvas.height/2);
 
     // Schedule next call if we aren't done yet
 	if( currentIteration < this.duration )
