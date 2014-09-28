@@ -38,10 +38,10 @@ var Guage = function(canvas, options) {
 	var defaultOptions = {
 		color: "lightblue",
 		bgColor: "#eee",
-		clockwise: false,
+		clockwise: true,
 		startValue: 0,
 		value: 0.626,
-		rotation: 0,
+		rotation: Math.PI,
 		radius: 50,
 		lineWidth: 20,
 		duration: 5000
@@ -70,12 +70,15 @@ Guage.prototype.drawArc = function(startDegree, endDegree) {
 	var ctx = this.ctx;
 	var canvas = ctx.canvas;
 
-	startDegree += -Math.PI/2 + this.rotation;
-	endDegree += -Math.PI/2 + this.rotation;
+	ctx.save();
+	ctx.translate( canvas.width/2, canvas.height/2 );
+	ctx.rotate( this.rotation - Math.PI/2 );
 
 	ctx.beginPath();
-	ctx.arc(canvas.width/2, canvas.height/2, this.radius, startDegree, endDegree, this.clockwise);
+	ctx.arc(0, 0, this.radius, startDegree, endDegree, !this.clockwise);
 	ctx.stroke();
+
+	ctx.restore();
 
 };
 
@@ -98,6 +101,7 @@ Guage.prototype.render = function() {
 	// Draw background
 	ctx.strokeStyle = this.bgColor;
 	this.drawArc(0, Math.PI*2);
+	debugger;
 
 	// Draw guage
     ctx.strokeStyle = this.color;
