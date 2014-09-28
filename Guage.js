@@ -42,7 +42,7 @@ var Guage = function(canvas, options) {
 		value: Math.PI*1.2,
 		rotation: 0,
 		radius: 50,
-		duration: 1000
+		duration: 5000
 	};
 
 	for( var key in defaultOptions ) {
@@ -82,27 +82,28 @@ Guage.prototype.ease = function(currentIteration, startValue, changeInValue, tot
 };
 
 Guage.prototype.render = function() {
-	var now = Date.now();
-
-	if( now - this.startTime > this.duration ) {
-		return;
-	}
-
 	var ctx = this.ctx;
+	var currentIteration = Date.now() - this.startTime;
 
+    // Update guage position
+	this.radians = this.ease( currentIteration, 0, this.destinationRadians, this.duration);
+
+	// Clear the canvas
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 	ctx.lineWidth = 20;
 
+	// Draw background
 	ctx.strokeStyle = this.bgColor;
 	this.drawArc(0, Math.PI*2);
 
+	// Draw guage
     ctx.strokeStyle = this.color;
     this.drawArc(0, this.radians);
 
-	this.radians = this.ease( now - this.startTime, 0, this.destinationRadians, this.duration);
-
-	window.requestAnimationFrame( this.render.bind(this) );
+    // Schedule next call if we aren't done yet
+	if( currentIteration < this.duration )
+		window.requestAnimationFrame( this.render.bind(this) );
 };
 
 
