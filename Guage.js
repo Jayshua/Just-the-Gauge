@@ -42,6 +42,7 @@ var Guage = function(canvas, options) {
 		value: Math.PI*1.2,
 		rotation: 0,
 		radius: 50,
+		lineWidth: 20,
 		duration: 5000
 	};
 
@@ -91,7 +92,7 @@ Guage.prototype.render = function() {
 	// Clear the canvas
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-	ctx.lineWidth = 20;
+	ctx.lineWidth = this.lineWidth;
 
 	// Draw background
 	ctx.strokeStyle = this.bgColor;
