@@ -12,7 +12,15 @@ var Guage = function(canvas, options) {
 		from: 0,
 		to: 0.9,
 
-		radius: (canvas.width < canvas.height) ? canvas.width/2.3 : canvas.height/2.3,
+		radius: (function() {
+			// Default radius calculation is too complex for one line... Well, it *could* be done. But let's not go there.
+			var lineWidth = options.lineWidth || 20;
+
+			if(canvas.width < canvas.height)
+				return canvas.width/2 - lineWidth/2;
+			else
+				return canvas.height/2 - lineWidth/2;
+		})(),
 
 		arcStart: Math.PI*3/4,
 		arcLength: Math.PI*6/4,
@@ -103,5 +111,6 @@ Guage.prototype.freeze = function() {
 Guage.prototype.thaw = function() {
 	this.running = true;
 };
+// Those perhaps aren't the best names... So let's alias them.
 Guage.prototype.stop = Guage.prototype.freeze;
 Guage.prototype.start = Guage.prototype.thaw;
