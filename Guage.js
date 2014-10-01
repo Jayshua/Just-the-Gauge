@@ -6,20 +6,22 @@ var Guage = function(canvas, options) {
 		lineWidth: 20,
 		font: (canvas.height/5) + "px Arial",
 
-		easing: "easeOutQuart",
-		duration: 10000,
+		easing: "easeOutSine",
+		duration: 5000,
 
-		value: 1,
-		currentValue: 0,
+		from: 0,
+		to: 0.9,
 
 		radius: (canvas.width < canvas.height) ? canvas.width/2.3 : canvas.height/2.3,
 
-		startPosition: Math.PI*3/4,
+		arcStart: Math.PI*3/4,
 		arcLength: Math.PI*6/4,
 		counterClockwise: false,
 
 		x: canvas.width/2,
-		y: canvas.height/2
+		y: canvas.height/2,
+
+		running: true
 	};
 	
 	for( var key in defaultOptions ) {
@@ -35,29 +37,13 @@ var Guage = function(canvas, options) {
     this.render();
 };
 
-Guage.prototype.ease = {
-  linear: function (t) { return t },
-  easeInQuad: function (t) { return t*t },
-  easeOutQuad: function (t) { return t*(2-t) },
-  easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
-  easeInCubic: function (t) { return t*t*t },
-  easeOutCubic: function (t) { return (--t)*t*t+1 },
-  easeInOutCubic: function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
-  easeInQuart: function (t) { return t*t*t*t },
-  easeOutQuart: function (t) { return 1-(--t)*t*t*t },
-  easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
-  easeInQuint: function (t) { return t*t*t*t*t },
-  easeOutQuint: function (t) { return 1+(--t)*t*t*t*t },
-  easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t }
-};
-
 Guage.prototype.render = function() {
 	var ctx = this.ctx;
 	var now = Date.now();
 	var ellapsed = now - this.startTime;
 
 	// Update Value
-	this.currentValue = this.ease[this.easing]( ellapsed/this.duration )*this.value;
+	this.currentValue = this.ease[this.easing]( ellapsed, this.from, this.to-this.from, this.duration )
 
 	// Clear Canvas
 	ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -70,7 +56,7 @@ Guage.prototype.render = function() {
 		this.x, this.y,
 		this.radius,
 
-		this.startPosition, this.startPosition+this.arcLength,
+		this.arcStart, this.arcStart+this.arcLength,
 
 		this.counterClockwise
 	);
@@ -84,7 +70,7 @@ Guage.prototype.render = function() {
 		this.x, this.y,
 		this.radius,
 
-		this.startPosition, this.startPosition+(this.arcLength*this.currentValue),
+		this.arcStart, this.arcStart+(this.arcLength*this.currentValue),
 
 		this.counterClockwise
 	);
@@ -99,6 +85,23 @@ Guage.prototype.render = function() {
     var text = Math.round( this.currentValue*100 ) + "%";
     ctx.fillText(text, ctx.canvas.width/2, ctx.canvas.height/2);
 
-	if( ellapsed < this.duration )
+	if( ellapsed < this.duration && this.running == true )
 		window.requestAnimationFrame( this.render.bind(this) );
 };
+
+Guage.prototype.setValue = function(newValue) {
+	this.from = this.currentValue;
+	this.to = newValue;
+	this.startTime = Date.now();
+
+	this.render();
+};
+
+Guage.prototype.freeze = function() {
+	this.running = false;
+};
+Guage.prototype.thaw = function() {
+	this.running = true;
+};
+Guage.prototype.stop = Guage.prototype.freeze;
+Guage.prototype.start = Guage.prototype.thaw;

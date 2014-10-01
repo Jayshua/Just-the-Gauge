@@ -7,10 +7,21 @@
 <body>
 	<canvas id="canvas"></canvas>
 	<script src="Guage.js"></script>
+	<script src="easing.js"></script>
 	<script>
 		var canvas = document.getElementById("canvas");
 
-		guage = new Guage(canvas);
+		guage = new Guage(canvas, {
+			arcStart: Math.PI/2,
+			arcLength: Math.PI*2,
+			to: 1,
+			duration: 3000,
+			easing: "easeOutCirc"
+		});
+
+		setTimeout(function() {
+			guage.stop();
+		}, 1000);
 	</script>
 </body>
 </html>
