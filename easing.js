@@ -35,7 +35,7 @@
 
 
 Guage.prototype.ease = {
-	linearEase: function(currentIteration, startValue, changeInValue, totalIterations) {
+	easeLinear: function(currentIteration, startValue, changeInValue, totalIterations) {
 		return changeInValue * currentIteration / totalIterations + startValue;
 	},
 	easeInQuad: function(currentIteration, startValue, changeInValue, totalIterations) {

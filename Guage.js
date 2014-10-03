@@ -4,13 +4,21 @@ var Guage = function(canvas, options) {
 		color: "lightblue",
 		bgColor: "#eee",
 		lineWidth: 20,
-		font: (canvas.height/5) + "px Arial",
+
+		text: {
+			font: (canvas.height/5) + "px Arial",
+			align: "center",
+			baseline: "middle",
+			identifier: "%",
+			x: canvas.width/2,
+			y: canvas.height/2
+		},
 
 		easing: "easeOutSine",
 		duration: 5000,
 
 		from: 0,
-		to: 0.9,
+		to: 1,
 
 		radius: (function() {
 			// Default radius calculation is too complex for one line... Well, it *could* be done. But let's not go there.
@@ -42,7 +50,7 @@ var Guage = function(canvas, options) {
 	this.ctx = canvas.getContext("2d");
 	this.startTime = Date.now();
 
-    this.render();
+	this.render();
 };
 
 Guage.prototype.render = function() {
@@ -86,12 +94,12 @@ Guage.prototype.render = function() {
 
 	// Draw Text
 	ctx.fillStyle = this.color;
-    ctx.font = this.font;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    
-    var text = Math.round( this.currentValue*100 ) + "%";
-    ctx.fillText(text, ctx.canvas.width/2, ctx.canvas.height/2);
+	ctx.font = this.text.font;
+	ctx.textAlign = this.text.align;
+	ctx.textBaseline = this.text.baseline;
+	
+	var text = Math.round( this.currentValue*100 ) + this.text.identifier;
+	ctx.fillText(text, this.text.x, this.text.y);
 
 	if( ellapsed < this.duration && this.running == true )
 		window.requestAnimationFrame( this.render.bind(this) );
