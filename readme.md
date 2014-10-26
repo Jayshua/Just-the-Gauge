@@ -28,7 +28,7 @@ var guage = new Guage(canvas, {
 
 `from` and `to` are both normalized values from 0 to 1. In this case, our guage will start at `0%` and animate to `70%`.
 
-There are alot of options avalible, just take a look!
+There are allot of options available, just take a look!
 
 ## Methods
 Guage only has three methods: `freeze`, `thaw`, and `setValue`. `Freeze` stops the animation, `thaw` starts it again, and `setValue` lets you, as you might expect, set the value. It accepts a single argument - a normalized value between 0 and 1. See the `to` option below.
@@ -40,7 +40,7 @@ myGuage.thaw();
 myGuage.setValue(0.25);
 ```
 
-Also, `stop` and `start` are aliases to `freeze` and `thaw` respectivly. Just in case you don't like those names. (But who wouldn't?)
+Also, `stop` and `start` are aliases to `freeze` and `thaw` respectively. Just in case you don't like those names. (But who wouldn't?)
 
 ## Options
 Every option (*every* option) has a default value. You can leave the entire object out if you like... But then all your guages would go from 0% to 100%. That wouldn't be very fun. Here's the default options object to get you started. More detailed information is below.
@@ -138,9 +138,9 @@ The y position of the text identifier.
 ### easing
 Default: `easeOutSine`
 
-Defines the easing function to use. Every easing function in the following list (except linear) requires one of the following prefixs: `In`, `Out`, `InOut`. For example, if you wanted to ease in with a sine function, you would write `easeInSine`, and if you wanted to use a cubic ease both in and out you would write `easeInOutCubic`.
+Defines the easing function to use. Every easing function in the following list (except linear) requires one of the following prefixes: `In`, `Out`, `InOut`. For example, if you wanted to ease in with a sine function, you would write `easeInSine`, and if you wanted to use a cubic ease both in and out you would write `easeInOutCubic`.
 
-Avalible easing functions:
+Available easing functions:
 - Linear
 - Quad
 - Cubic
@@ -154,7 +154,7 @@ Additionally, you can define your own easing function by adding it to the Guage.
 
 
 ### duration
-Defualt: `5000`
+Default: `5000`
 
 How long, in milliseconds, the transition from one value to the next should take.
 
@@ -192,7 +192,7 @@ How long the guage should be, drawn from `arcStart`. Takes the same form as `arc
 ### counterClockwise
 Default: `false`
 
-Whether or not you want the guage to be drawn counterClockwise. I'm not sure why this would be usefull, but if you find it to be all the better.
+Whether or not you want the guage to be drawn counterClockwise. I'm not sure why this would be useful, but if you find it to be all the better.
 
 
 ### x
