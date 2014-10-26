@@ -28,7 +28,7 @@ Of course you can just leave the options argument empty. The defaults look nice!
 
 `from` and `to` are both normalized values from 0 to 1. In this case, our guage will start at `0%` and animate to `70%`.
 
-There are allot of options avalible, just take a look!
+There are alot of options avalible, just take a look!
 
 ## Methods
 Guage only has three methods: `freeze`, `thaw`, and `setValue`. `Freeze` stops the animation, `thaw` starts it again, and `setValue` lets you, as you might expect, set the value. It accepts a single argument - a normalized value between 0 and 1. See the `to` option below.
@@ -36,40 +36,48 @@ Guage only has three methods: `freeze`, `thaw`, and `setValue`. `Freeze` stops t
 Also, `freeze` and `thaw` are aliased to `stop` and `start` respectivly. Just in case you don't like those names. (But who wouldn't?)
 
 ## Options
-Every option (*every* option) has a default value. You can leave the entire object out if you like... But then all your guages would go from 0% to 100%. That wouldn't be very fun. Here's the default options object to get you started. More detailed information is blow.
+Every option (*every* option) has a default value. You can leave the entire object out if you like... But then all your guages would go from 0% to 100%. That wouldn't be very fun. Here's the default options object to get you started. More detailed information is below.
 
 ```javascript
 var defaultOptions = {
-	color: "lightblue",
-	bgColor: "#eee",
-	lineWidth: 20,
+		color: "lightblue",
+		bgColor: "#eee",
+		lineWidth: 20,
 
-	text: {
-		font: (canvas.height/5) + "px Arial",
-		align: "center",
-		baseline: "middle",
-		identifier: "%",
+		text: {
+			font: (canvas.height/5) + "px Arial",
+			align: "center",
+			baseline: "middle",
+			x: canvas.width/2,
+			y: canvas.height/2,
+			transform: function(value) { return Math.round(value*100) + "%"; }
+		},
+
+		easing: "easeOutSine",
+		duration: 5000,
+
+		from: 0,
+		to: 1,
+
+		radius: (function() {
+			// Default radius calculation is too complex for one line... Well, it *could* be done. But let's not go there.
+			var lineWidth = options.lineWidth || 20;
+
+			if(canvas.width < canvas.height)
+				return canvas.width/2 - lineWidth/2;
+			else
+				return canvas.height/2 - lineWidth/2;
+		})(),
+
+		arcStart: Math.PI*3/4,
+		arcLength: Math.PI*6/4,
+		counterClockwise: false,
+
 		x: canvas.width/2,
-		y: canvas.height/2
-	},
+		y: canvas.height/2,
 
-	easing: "easeOutSine",
-	duration: 5000,
-
-	from: 0,
-	to: 1,
-
-	radius: 50,
-
-	arcStart: Math.PI*3/4,
-	arcLength: Math.PI*6/4,
-	counterClockwise: false,
-
-	x: canvas.width/2,
-	y: canvas.height/2,
-
-	running: true
-};
+		running: true
+	};
 ```
 
 
