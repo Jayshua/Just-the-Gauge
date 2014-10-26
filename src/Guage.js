@@ -52,14 +52,12 @@ Guage.prototype.defaultOptions = {
 	bgColor: "#eee",
 	lineWidth: 20,
 
-	text: {
-		font: (canvas.height/5) + "px Arial",
-		align: "center",
-		baseline: "middle",
-		x: canvas.width/2,
-		y: canvas.height/2,
-		transform: function(value) { return Math.round(value*100) + "%"; }
-	},
+	textX: canvas.width/2,
+	textY: canvas.height/2,
+	textFont: (canvas.height/5) + "px Arial",
+	textAlign: "center",
+	textBaseline: "middle",
+	textTransform: function(value) { return Math.round(value*100) + "%"; }
 
 	easing: "easeOutSine",
 	duration: 5000,
