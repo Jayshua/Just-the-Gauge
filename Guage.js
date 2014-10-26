@@ -1,56 +1,84 @@
 var Guage = function(canvas, options) {
 	var options = options || {};
-	var defaultOptions = {
-		color: "lightblue",
-		bgColor: "#eee",
-		lineWidth: 20,
 
-		text: {
-			font: (canvas.height/5) + "px Arial",
-			align: "center",
-			baseline: "middle",
-			identifier: "%",
-			x: canvas.width/2,
-			y: canvas.height/2
-		},
+	// Check if we were given an id, a canvas element, or a context
+	// This nice little method complements of
+	// http://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object
+	if (
+    	typeof HTMLElement === "object" ? canvas instanceof HTMLElement : //DOM2
+    	canvas && typeof canvas === "object" && canvas !== null && canvas.nodeType === 1 && typeof canvas.nodeName==="string" ) {
 
-		easing: "easeOutSine",
-		duration: 5000,
+	 	// If this crazy if statement is true, we have an element (hope its a canvas, we won't check for that)
+		this.canvas = canvas;
+		this.ctx = canvas.getContext("2d");
 
-		from: 0,
-		to: 1,
+	} else if( typeof canvas == "string" ) {
+		// This is a string, we assume it is an ID
+		this.canvas = document.getElementById(canvas);
+		this.ctx = this.canvas.getContext("2d");
+	} else {
+		// If it isn't a canvas element or a string, we assume it is a context object
+		debugger;
+		this.ctx = canvas;
+		this.canvas = this.ctx.canvas;
+	}
 
-		radius: (function() {
-			// Default radius calculation is too complex for one line... Well, it *could* be done. But let's not go there.
-			var lineWidth = options.lineWidth || 20;
 
-			if(canvas.width < canvas.height)
-				return canvas.width/2 - lineWidth/2;
-			else
-				return canvas.height/2 - lineWidth/2;
-		})(),
+	// Default radius calculation requires access to canvas, so it can't be in the default object
+	if( !options.radius ) {
+		var lineWidth = options.lineWidth || 20;
 
-		arcStart: Math.PI*3/4,
-		arcLength: Math.PI*6/4,
-		counterClockwise: false,
+		if(this.canvas.width < this.canvas.height)
+			options.radius = this.canvas.width/2 - lineWidth / 2;
+		else
+			options.radius = this.canvas.height/2 - lineWidth / 2;
 
-		x: canvas.width/2,
-		y: canvas.height/2,
+	}
 
-		running: true
-	};
-	
-	for( var key in defaultOptions ) {
-		if( typeof options[key] == "undefined") options[key] = defaultOptions[key];
+	// Merge options and default options, assign them to "this"	
+	for( var key in this.defaultOptions ) {
+		if( typeof options[key] == "undefined") options[key] = this.defaultOptions[key];
 		this[key] = options[key];
 	}
 
 
-	this.canvas = canvas;
-	this.ctx = canvas.getContext("2d");
 	this.startTime = Date.now();
 
 	this.render();
+};
+
+Guage.prototype.defaultOptions = {
+	color: "lightblue",
+	bgColor: "#eee",
+	lineWidth: 20,
+
+	text: {
+		font: (canvas.height/5) + "px Arial",
+		align: "center",
+		baseline: "middle",
+		x: canvas.width/2,
+		y: canvas.height/2,
+		transform: function(value) { return Math.round(value*100) + "%"; }
+	},
+
+	easing: "easeOutSine",
+	duration: 5000,
+
+	from: 0,
+	to: 1,
+
+	// This isn't actually the default radius, it's just a placeholder
+	// The default radius is calculated in the instantiation function
+	radius: 20,
+
+	arcStart: Math.PI*3/4,
+	arcLength: Math.PI*6/4,
+	counterClockwise: false,
+
+	x: canvas.width/2,
+	y: canvas.height/2,
+
+	running: true
 };
 
 Guage.prototype.render = function() {
@@ -98,7 +126,7 @@ Guage.prototype.render = function() {
 	ctx.textAlign = this.text.align;
 	ctx.textBaseline = this.text.baseline;
 	
-	var text = Math.round( this.currentValue*100 ) + this.text.identifier;
+	var text = this.text.transform(this.currentValue);
 	ctx.fillText(text, this.text.x, this.text.y);
 
 	if( ellapsed < this.duration && this.running == true )
