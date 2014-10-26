@@ -208,7 +208,7 @@ The y location (in pixels) of the center of the guage. Default to the middle of 
 ### running
 Default: `true`
 
-Whether the guage is currently animating.
+Whether the guage is currently animating. Set this to false if you will start it later with `guage.thaw`.
 
 
 ## License
