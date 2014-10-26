@@ -1,23 +1,24 @@
 {
-  "name": "Just-the-Guage",
+  "name": "Just-the-Gauge",
   "version": "1.0.0",
-  "description": "A MicroJS library for creating simple guages with the Canvas element",
+  "description": "A MicroJS library for creating simple gauges with the Canvas element",
   "author": "Jayshua Nelson",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "http://github.com/Jayshua/Just-the-Guage.git"
+    "url": "http://github.com/Jayshua/Just-the-Gauge.git"
   },
   "keywords": [
-    "guage",
+    "gauge",
     "canvas"
   ],
   "bugs": {
-    "url": "https://github.com/Jayshua/Just-the-Guage/issues"
+    "url": "https://github.com/Jayshua/Just-the-Gauge/issues"
   },
-  "homepage": "https://github.com/Jayshua/Just-the-Guage",
+  "homepage": "https://github.com/Jayshua/Just-the-Gauge",
   "devDependencies": {
     "gulp": "^3.8.9",
+    "gulp-concat": "^2.4.1",
     "gulp-uglifyjs": "^0.4.4"
   }
 }

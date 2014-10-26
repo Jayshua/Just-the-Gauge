@@ -1,4 +1,4 @@
-var Guage = function(canvas, options) {
+var Gauge = function(canvas, options) {
 	var options = options || {};
 
 	// Check if we were given an id, a canvas element, or a context
@@ -47,7 +47,7 @@ var Guage = function(canvas, options) {
 	this.render();
 };
 
-Guage.prototype.defaultOptions = {
+Gauge.prototype.defaultOptions = {
 	color: "lightblue",
 	bgColor: "#eee",
 	lineWidth: 20,
@@ -57,7 +57,7 @@ Guage.prototype.defaultOptions = {
 	textFont: (canvas.height/5) + "px Arial",
 	textAlign: "center",
 	textBaseline: "middle",
-	textTransform: function(value) { return Math.round(value*100) + "%"; }
+	textTransform: function(value) { return Math.round(value*100) + "%"; },
 
 	easing: "easeOutSine",
 	duration: 5000,
@@ -79,7 +79,7 @@ Guage.prototype.defaultOptions = {
 	running: true
 };
 
-Guage.prototype.render = function() {
+Gauge.prototype.render = function() {
 	var ctx = this.ctx;
 	var now = Date.now();
 	var ellapsed = now - this.startTime;
@@ -90,7 +90,7 @@ Guage.prototype.render = function() {
 	// Clear Canvas
 	ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-	// Draw guage background
+	// Draw gauge background
 	ctx.strokeStyle = this.bgColor;
 	ctx.lineWidth = this.lineWidth;
 	ctx.beginPath();
@@ -104,7 +104,7 @@ Guage.prototype.render = function() {
 	);
 	ctx.stroke();
 
-	// Draw guage position
+	// Draw gauge position
 	ctx.strokeStyle = this.color;
 	ctx.lineWidth = this.lineWidth;
 	ctx.beginPath();
@@ -131,7 +131,7 @@ Guage.prototype.render = function() {
 		window.requestAnimationFrame( this.render.bind(this) );
 };
 
-Guage.prototype.setValue = function(newValue) {
+Gauge.prototype.setValue = function(newValue) {
 	this.from = this.currentValue;
 	this.to = newValue;
 	this.startTime = Date.now();
@@ -139,12 +139,12 @@ Guage.prototype.setValue = function(newValue) {
 	this.render();
 };
 
-Guage.prototype.freeze = function() {
+Gauge.prototype.freeze = function() {
 	this.running = false;
 };
-Guage.prototype.thaw = function() {
+Gauge.prototype.thaw = function() {
 	this.running = true;
 };
 // Those perhaps aren't the best names... So let's alias them.
-Guage.prototype.stop = Guage.prototype.freeze;
-Guage.prototype.start = Guage.prototype.thaw;
+Gauge.prototype.stop = Gauge.prototype.freeze;
+Gauge.prototype.start = Gauge.prototype.thaw;
