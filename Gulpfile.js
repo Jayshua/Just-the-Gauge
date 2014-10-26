@@ -7,13 +7,13 @@ var files = ["src/Gauge.js", "src/easing.js"];
 gulp.task("uglify", function() {
   gulp.src(files)
     .pipe(uglify("Gauge.min.js"))
-    .pipe(gulp.dest("min"));
+    .pipe(gulp.dest("build"));
 });
 
 gulp.task("concat", function() {
 	gulp.src(files)
 	  .pipe(concat("Gauge.js"))
-	  .pipe( gulp.dest("min") );
+	  .pipe( gulp.dest("build") );
 });
 
 gulp.task("watch", ["default"], function() {
