@@ -120,12 +120,12 @@ Gauge.prototype.render = function() {
 
 	// Draw Text
 	ctx.fillStyle = this.color;
-	ctx.font = this.text.font;
-	ctx.textAlign = this.text.align;
-	ctx.textBaseline = this.text.baseline;
+	ctx.font = this.textFont;
+	ctx.textAlign = this.textAlign;
+	ctx.textBaseline = this.textBaseline;
 	
-	var text = this.text.transform(this.currentValue);
-	ctx.fillText(text, this.text.x, this.text.y);
+	var text = this.textTransform(this.currentValue);
+	ctx.fillText(text, this.textX, this.textY);
 
 	if( ellapsed < this.duration && this.running == true )
 		window.requestAnimationFrame( this.render.bind(this) );
