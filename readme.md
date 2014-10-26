@@ -99,44 +99,40 @@ Default: `20`
 
 The thickness of your guage. Accepts any number greater than zero.
 
----
+### textTransform
+Default: `??%`
 
-### text
-Default: `N/A`
+A function that takes the current normalized value of the gauge, and returns a string to be placed in the center of the canvas representing the current value.
 
-The `text` option is an object that takes the following attributes
-
-#### font
+### textFont
 Default: `??px Arial`
 
 The default font is calculated based on the height of your canvas. It accepts any standard font property. (Think CSS `font-family` values)
 
-#### align
+### textAlign
 Default: `center`
 
 The alignment (right/left/center/justify) of the indicator text. See [textAlign](http://www.w3schools.com/tags/canvas_textalign.asp).
 
-#### baseline
+### textBaseline
 Default: `middle`
 
 The baseline of the indicator text. See [textBaseline](http://www.w3schools.com/tags/canvas_textbaseline.asp)
 
-#### identifier
+### textIdentifier
 Default: `%`
 
 The identifier (as a string) to be used at the end of the indicator text.
 
-#### x
+### textX
 Default: `canvas.width/2`
 
 The x position of the text identifier.
 
-#### y
+### textY
 default: `canvas.height/2`
 
 The y position of the text identifier.
-
----
 
 ### easing
 Default: `easeOutSine`
