@@ -15,6 +15,7 @@ A little javascript here, a little javascript there...
 ``` javascript
 var guage = new Guage(canvas);
 ```
+The canvas argument can be either a string representing the ID of a canvas element on the page, the canvas element itself, or the context of the canvas element. Pick one, they all work.
 
 ### 3. That's it! You're done! (Sort of...)
 Of course you can just leave the options argument empty. The defaults look nice! But you probably want to tell the guage what value it should show.
