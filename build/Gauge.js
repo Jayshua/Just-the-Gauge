@@ -24,60 +24,59 @@ var Gauge = function(canvas, options) {
 	}
 
 
-	// Default radius calculation requires access to canvas, so it can't be in the default object
-	if( !options.radius ) {
-		var lineWidth = options.lineWidth || 20;
 
-		if(this.canvas.width < this.canvas.height)
-			options.radius = this.canvas.width/2 - lineWidth / 2;
-		else
-			options.radius = this.canvas.height/2 - lineWidth / 2;
 
-	}
+	var defaultOptions = {
+		color: "lightblue",
+		bgColor: "#eee",
+		lineWidth: 20,
+
+		textX: 0,
+		textY: 0,
+		textFont: (this.canvas.height/5) + "px Arial",
+		textColor: options.color || "lightblue",
+		textAlign: "center",
+		textBaseline: "middle",
+		textTransform: function(value) { return Math.round(value*100) + "%"; },
+
+		easing: "easeOutSine",
+		duration: 5000,
+
+		from: 0,
+		to: 1,
+
+		radius: (function() {
+			var lineWidth = options.lineWidth || 20;
+
+			if(this.canvas.width < this.canvas.height)
+				return this.canvas.width/2 - lineWidth / 2;
+			else
+				return this.canvas.height/2 - lineWidth / 2;
+		}()),
+
+		arcStart: Math.PI*3/4,
+		arcLength: Math.PI*6/4,
+		counterClockwise: false,
+
+		x: this.canvas.width/2,
+		y: this.canvas.height/2,
+
+		running: true
+	};
 
 	// Merge options and default options, assign them to "this"	
-	for( var key in this.defaultOptions ) {
-		if( typeof options[key] == "undefined") options[key] = this.defaultOptions[key];
+	for( var key in defaultOptions ) {
+		if( typeof options[key] == "undefined") options[key] = defaultOptions[key];
 		this[key] = options[key];
 	}
 
 
 	this.startTime = Date.now();
-
+ 
 	this.render();
 };
 
-Gauge.prototype.defaultOptions = {
-	color: "lightblue",
-	bgColor: "#eee",
-	lineWidth: 20,
 
-	textX: canvas.width/2,
-	textY: canvas.height/2,
-	textFont: (canvas.height/5) + "px Arial",
-	textAlign: "center",
-	textBaseline: "middle",
-	textTransform: function(value) { return Math.round(value*100) + "%"; },
-
-	easing: "easeOutSine",
-	duration: 5000,
-
-	from: 0,
-	to: 1,
-
-	// This isn't actually the default radius, it's just a placeholder
-	// The default radius is calculated in the instantiation function
-	radius: 20,
-
-	arcStart: Math.PI*3/4,
-	arcLength: Math.PI*6/4,
-	counterClockwise: false,
-
-	x: canvas.width/2,
-	y: canvas.height/2,
-
-	running: true
-};
 
 Gauge.prototype.render = function() {
 	var ctx = this.ctx;
@@ -88,7 +87,8 @@ Gauge.prototype.render = function() {
 	this.currentValue = this.ease[this.easing]( ellapsed, this.from, this.to-this.from, this.duration )
 
 	// Clear Canvas
-	ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	var bounding = this.radius + (this.lineWidth/2);
+	ctx.clearRect( this.x - bounding, this.y - bounding, this.x + bounding, this.y + bounding);
 
 	// Draw gauge background
 	ctx.strokeStyle = this.bgColor;
@@ -119,13 +119,13 @@ Gauge.prototype.render = function() {
 	ctx.stroke();
 
 	// Draw Text
-	ctx.fillStyle = this.color;
+	ctx.fillStyle = this.textColor;
 	ctx.font = this.textFont;
 	ctx.textAlign = this.textAlign;
 	ctx.textBaseline = this.textBaseline;
 	
 	var text = this.textTransform(this.currentValue);
-	ctx.fillText(text, this.textX, this.textY);
+	ctx.fillText(text, this.textX + this.x, this.textY + this.y);
 
 	if( ellapsed < this.duration && this.running == true )
 		window.requestAnimationFrame( this.render.bind(this) );
