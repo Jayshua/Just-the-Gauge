@@ -47,37 +47,36 @@ Also, `stop` and `start` are aliases to `freeze` and `thaw` respectively. Just i
 Every option (*every* option) has a default value. You can leave the entire object out if you like... But then all your gauges would go from 0% to 100%. That wouldn't be very fun. Here's the default options object to get you started. More detailed information is below.
 
 ```javascript
-Gauge.prototype.defaultOptions = {
-	color: "lightblue",
-	bgColor: "#eee",
-	lineWidth: 20,
+var defaultOptions = {
+		color: "lightblue",
+		bgColor: "#eee",
+		lineWidth: 20,
 
-	textX: canvas.width/2,
-	textY: canvas.height/2,
-	textFont: (canvas.height/5) + "px Arial",
-	textAlign: "center",
-	textBaseline: "middle",
-	textTransform: function(value) { return Math.round(value*100) + "%"; }
+		textOffsetX: 0,
+		textOffsetY: 0,
+		textFont: (this.canvas.height/5) + "px Arial",
+		textColor: options.color || "lightblue",
+		textAlign: "center",
+		textBaseline: "middle",
+		textTransform: function(value) { return Math.round(value*100) + "%"; },
 
-	easing: "easeOutSine",
-	duration: 5000,
+		easing: "easeOutSine",
+		duration: 5000,
 
-	from: 0,
-	to: 1,
+		from: 0,
+		to: 1,
 
-	// This isn't actually the default radius, it's just a placeholder
-	// The default radius is calculated in the instantiation function
-	radius: 20,
+		radius: 0, // calculated based on canvas height and width
 
-	arcStart: Math.PI*3/4,
-	arcLength: Math.PI*6/4,
-	counterClockwise: false,
+		arcStart: Math.PI*3/4,
+		arcLength: Math.PI*6/4,
+		counterClockwise: false,
 
-	x: canvas.width/2,
-	y: canvas.height/2,
+		x: this.canvas.width/2,
+		y: this.canvas.height/2,
 
-	running: true
-};
+		running: true
+	};
 ```
 
 
@@ -124,15 +123,15 @@ Default: `%`
 
 The identifier (as a string) to be used at the end of the indicator text.
 
-### textX
+### textOffsetX
 Default: `canvas.width/2`
 
-The x position of the text identifier.
+The x position of the text identifier, offset from the center of the gauge.
 
-### textY
+### textOffsetY
 default: `canvas.height/2`
 
-The y position of the text identifier.
+The y position of the text identifier, offset from the center of the gauge.
 
 ### easing
 Default: `easeOutSine`

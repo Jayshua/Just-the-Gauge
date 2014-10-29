@@ -31,8 +31,8 @@ var Gauge = function(canvas, options) {
 		bgColor: "#eee",
 		lineWidth: 20,
 
-		textX: 0,
-		textY: 0,
+		textOffsetX: 0,
+		textOffsetY: 0,
 		textFont: (this.canvas.height/5) + "px Arial",
 		textColor: options.color || "lightblue",
 		textAlign: "center",
@@ -125,7 +125,7 @@ Gauge.prototype.render = function() {
 	ctx.textBaseline = this.textBaseline;
 	
 	var text = this.textTransform(this.currentValue);
-	ctx.fillText(text, this.textX + this.x, this.textY + this.y);
+	ctx.fillText(text, this.textOffsetX + this.x, this.textOffsetY + this.y);
 
 	if( ellapsed < this.duration && this.running == true )
 		window.requestAnimationFrame( this.render.bind(this) );
